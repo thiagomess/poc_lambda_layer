@@ -11,7 +11,7 @@ locals {
 
 resource "null_resource" "pip_install" {
   triggers = {
-    requirements = "${base64sha256(file("${local.layers_path}/requirements.txt"))}"
+    requirements = base64sha256(file("${local.layers_path}/requirements.txt"))
   }
 
   provisioner "local-exec" {
@@ -25,7 +25,7 @@ data "archive_file" "source" {
   source_dir  = local.layers_path
   output_path = "${local.layers_path}/${local.layer_name}.zip"
 
-  depends_on = ["null_resource.pip_install"]
+  depends_on = [null_resource.pip_install]
 }
 
 resource "aws_lambda_layer_version" "this" {
@@ -34,7 +34,7 @@ resource "aws_lambda_layer_version" "this" {
   description      = "layer"
   source_code_hash = data.archive_file.source.output_base64sha256
 
-  compatible_runtimes = ["${local.runtime}"]
+  compatible_runtimes = [local.runtime]
 
-  depends_on = ["null_resource.pip_install"]
+  depends_on = [null_resource.pip_install]
 }
