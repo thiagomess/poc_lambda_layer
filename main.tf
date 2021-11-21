@@ -35,6 +35,7 @@ resource "aws_lambda_layer_version" "this" {
   source_code_hash = data.archive_file.source.output_base64sha256
 
   compatible_runtimes = [local.runtime]
+  skip_destroy = true
 
   depends_on = [null_resource.pip_install]
 }
