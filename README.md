@@ -2,7 +2,7 @@ Poc_lambda_layer
 
 Poc para criação de lambda Layer em python utilizando Terraform
 
-terraform state rm aws_lambda_layer_version.this
+Adicionado em versão v3.66.0 o skip_destroy
 
 
 
